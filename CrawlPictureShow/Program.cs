@@ -9,7 +9,8 @@ namespace CrawlPictureShow
 {
     class Program
     {
-        public class Data
+        
+        public class DataImage
         {
             public string Title { get; set; }
             public string ID { get; set; }
@@ -35,7 +36,7 @@ namespace CrawlPictureShow
                 //Console.WriteLine("Generating PDF");
                 //await page.PdfAsync(Path.Combine(Directory.GetCurrentDirectory(), "google.pdf"));
 
-
+                #region Crawl Image Show
                 await page.WaitForSelectorAsync(".imgTagWrapper");
                 await page.ClickAsync("#imgTagWrapperId");
                 var jsCode = @"() => {
@@ -50,7 +51,7 @@ namespace CrawlPictureShow
                      return links;
                 }";
                 string fileNameImage = @"C:\Users\Admin\Desktop\FileStore\image.txt";
-                Data[] arr = await page.EvaluateFunctionAsync<Data[]>(jsCode);
+                DataImage[] arr = await page.EvaluateFunctionAsync<DataImage[]>(jsCode);
                 for (int i = 2; i < arr.Length; i++)
                 {              
                     Console.WriteLine(arr[i].ID);
@@ -67,14 +68,13 @@ namespace CrawlPictureShow
                         writer.WriteLine(fixUrlImage);
                     }
                 }
+                #endregion
+                #region Crawl Video Show
+                await page.ClickAsync("#ivVideosTabHeading");
 
+                #endregion
 
-                await page.WaitForTimeoutAsync(5000);
-
-                Console.WriteLine("screen shoot");
-                await page.ScreenshotAsync("C:\\users\\admin\\documents\\file\\screenshot.png");
-
-                Console.WriteLine("export completed");
+                Console.WriteLine("Completed");
 
                 if (!args.Any(arg => arg == "auto-exit"))
                 {
